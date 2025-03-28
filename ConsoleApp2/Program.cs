@@ -1,5 +1,11 @@
-﻿class Program
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+
+
+class Program
 {
+    static List<string> history = new List<string>();
     static List<string> addtovar = new List<string>(); 
     static List<string> korzina = new List<string>();
     static Dictionary<string, int> balance = new Dictionary<string, int>()
@@ -8,7 +14,7 @@
         {"Visa",100},
         {"Money",200},
     };
-    static Dictionary<string,double> login = new Dictionary<string,double>
+    static Dictionary<string,double> loginmearbejder = new Dictionary<string,double>
     {
         { "vova", 23102005 },
         { "employee1", 112233 },
@@ -33,7 +39,12 @@
                 case 1:
                     Medarbdejder();
                     break;
+
                 case 2:
+                    Admin();
+                    break;
+
+                case 3:
                     Buyer();
                     break;
                 case 0:
@@ -43,8 +54,14 @@
         }
     }
 
+    static void Admin()
+    {
+        
+    }
+
     static void Medarbdejder()
     {
+        Console.Clear();
         Login();
         Console.WriteLine("Добро пожаловать в личный кабинет!");
 
@@ -81,13 +98,14 @@
 
     static void Buyer()
     {
+        Console.Clear();
         Console.WriteLine("Здравствуйте, покупатель!");
 
         while (true)
         {
-            Console.Write("Выберите действие: 1 - Купить товар / 2 - Корзина / 0 - Вернуться в меню: ");
+            Console.Write("Выберите действие: 1 - Купить товар / 2 - Корзина / 3 - История покупок / 0 - Вернуться в меню: ");
             int choisebuyer;
-            while (!int.TryParse(Console.ReadLine(), out choisebuyer) || choisebuyer < 0 || choisebuyer > 2)
+            while (!int.TryParse(Console.ReadLine(), out choisebuyer) || choisebuyer < 0 || choisebuyer > 4)
             {
                 Console.WriteLine("Ошибка! Введите 1 (Купить товар), 2 (Корзина) или 0 (Выход).");
             }
@@ -102,12 +120,16 @@
                 case 2:
                     ItemsinKorzin();
                     break;
+                case 3:
+                    ViewPurchaseHistory();
+                        break;
             }
         }
     }
 
     static void Login()
     {
+        Console.Clear();
         Console.WriteLine("Введите ваше имя: ");
         string namemed = Console.ReadLine();
 
@@ -124,7 +146,7 @@
             Console.WriteLine("Ошибка! Введите числовой пароль.");
         }
 
-        if (login.TryGetValue(namemed, out double Storepassword))
+        if (loginmearbejder.TryGetValue(namemed, out double Storepassword))
         {
             if (Storepassword == password)
             {
@@ -143,6 +165,7 @@
 
     static void Addtovar()
     {
+        Console.Clear();
         Console.WriteLine("Название продукта: ");
         string nameoftovar = Console.ReadLine();
 
@@ -166,6 +189,7 @@
 
     static void CheckallTovar()
     {
+        Console.Clear();
         if (addtovar.Count == 0)
         {
             Console.WriteLine("Нет добавленных товаров.");
@@ -182,6 +206,7 @@
 
     static void Salary()
     {
+        Console.Clear();
         Console.Write("Сколько часов вы отработали?: ");
         int hourse;
         while (!int.TryParse(Console.ReadLine(), out hourse) || hourse < 0 || hourse > 200)
@@ -199,6 +224,7 @@
 
     static void BuyTovar()
     {
+        Console.Clear();
         if (addtovar.Count == 0)
         {
             Console.WriteLine("Магазин пуст!");
@@ -225,6 +251,7 @@
 
     static void ItemsinKorzin()
     {
+        Console.Clear();
         if (korzina.Count == 0)
         {
             Console.WriteLine("Корзина пуста.");
@@ -236,6 +263,9 @@
         {
             Console.WriteLine(item);
         }
+
+
+        CleartheKorzin();
 
         Console.Write("Перейти к оплате? (Да/Нет): ");
         string betale = Console.ReadLine().ToLower();
@@ -251,8 +281,34 @@
             Betale(CalculateTotalBalance());
     }
 
+    static void CleartheKorzin()
+    {
+        Console.Clear();
+        Console.WriteLine("Хотите ли вы убрать все товары с вашей корзины?");
+        Console.Write("1 - да 2 - нет");
+        int clear;
+
+        while (!int.TryParse(Console.ReadLine(), out clear) || clear < 0 || clear > 3)
+        {
+            Console.WriteLine("Проверьте ваш ввод! От 1 до 2!");
+        }
+
+        if (clear == 1)
+        {
+          korzina.Clear();
+          Console.WriteLine("Ваша корзина пуста");
+            return;
+        }
+        else if (clear == 2)
+        {
+            Console.WriteLine("Вы оставили все товары в корзине");
+            Betale(CalculateTotalBalance());
+        }
+    }
+
     static int CalculateTotalBalance()
     {
+        Console.Clear();
         int total = 0;
         foreach (var item in korzina)
         {
@@ -272,7 +328,7 @@
         {
             Console.WriteLine("Введите корректный способ оплаты!");
         }
-
+        
         string choisemetod = choisebetale switch
         {
             1 => "MasterCard",
@@ -283,7 +339,13 @@
         if (balance[choisemetod] >= totalbalance)
         {
             balance[choisemetod] -= totalbalance;
+
+            Console.WriteLine("Проходит оплата...");
+            Thread.Sleep(2000);
+                
             Console.WriteLine($"Оплата прошла успешно!: {choisemetod} Баланс: {totalbalance}");
+
+            history.AddRange(korzina);
             korzina.Clear();
         }
         else
@@ -291,7 +353,20 @@
             Console.WriteLine("Не успешно! Выберите другой способ оплаты:");
             Betale(totalbalance);
         }
+    }
 
-
+    static void ViewPurchaseHistory()
+    {
+        if (history.Count == 0)
+        {
+            Console.WriteLine("Истории покупок нет");
+        }
+        else
+        {
+            foreach (var item in history)
+            {
+                Console.WriteLine($"Все товары: {item}");
+            }
+        }
     }
 }
