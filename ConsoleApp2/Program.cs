@@ -1,10 +1,13 @@
-﻿using System;
+﻿using AdminNamespace;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using AdminNamespace;
 
 
 class Program
 {
+    static AdminAction admin = new AdminAction();
     static List<string> history = new List<string>();
     static List<string> addtovar = new List<string>(); 
     static List<string> korzina = new List<string>();
@@ -26,7 +29,7 @@ class Program
         while (true) 
         {
             Console.WriteLine("Добро пожаловать в магазин!");
-            Console.Write("Выберите кто вы: 1 - Сотрудник / 2 - Покупатель / 0 - Выход: ");
+            Console.Write("Выберите кто вы: 1 - Сотрудник / 2 - Админ /  3 - Покупатель / 0 - Выход: ");
 
             int choise;
             while (!int.TryParse(Console.ReadLine(), out choise) || (choise < 0 || choise > 2))
@@ -41,7 +44,7 @@ class Program
                     break;
 
                 case 2:
-                    Admin();
+                    admin.AdminMenu(); ;
                     break;
 
                 case 3:
@@ -54,10 +57,7 @@ class Program
         }
     }
 
-    static void Admin()
-    {
-        
-    }
+   
 
     static void Medarbdejder()
     {
@@ -95,6 +95,8 @@ class Program
             }
         }
     }
+
+    
 
     static void Buyer()
     {
@@ -267,6 +269,8 @@ class Program
 
         CleartheKorzin();
 
+        Discaunt();
+
         Console.Write("Перейти к оплате? (Да/Нет): ");
         string betale = Console.ReadLine().ToLower();
 
@@ -279,6 +283,43 @@ class Program
             Console.WriteLine("Вы остались в магазине.");
         }
             Betale(CalculateTotalBalance());
+    }
+
+    static void Discaunt()
+    {
+        Console.WriteLine("У вас есть Скидочная карта нашего магазина? ");
+        Console.Write("Да/Нет");
+        string discountcard = Console.ReadLine();
+
+        if (discountcard.ToLower() == "да")
+        {
+            Console.Write("Введите сколько денег на вашей скидочной карте: 100/200/300/400");
+            int howmanymoney;
+
+           while (!int.TryParse(Console.ReadLine(), out howmanymoney) || howmanymoney != 100 || howmanymoney != 200 || howmanymoney != 300 || howmanymoney != 400)
+            {
+                Console.WriteLine("Введите корректную сумму");
+            }
+
+           int totalprice = CalculateTotalBalance();
+
+           if (howmanymoney > totalprice)
+            {
+                Console.WriteLine("Скидка больше стоимости покупок! Вы ничего не платите");
+                korzina.Clear();
+                return;
+            }
+
+            totalprice -= howmanymoney;
+            Console.WriteLine($"После скидки ваша сумма состяет: {totalprice}");
+
+            Betale(totalprice);
+        }
+        else
+        {
+            Console.WriteLine("Вы продолжите без скидочной карты");
+        }
+
     }
 
     static void CleartheKorzin()

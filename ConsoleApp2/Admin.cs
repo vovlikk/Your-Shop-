@@ -1,29 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AdminNamespace
 {
     public class AdminAction
     {
-        static List<string> todolist = new List<string>();
+        private List<string> todolist = new List<string>();
 
         public void AdminMenu()
         {
+            Console.Clear();
             while (true)
             {
                 Console.WriteLine("Добро пожаловать в личный кабинет!");
-                Console.Write("Выберите: 1 - Добавить задачу / 2 - Удалить / 3 - Активные / 3 - Выход");
+                Console.Write("Выберите: 1 - Добавить задачу / 2 - Удалить / 3 - Активные / 4 - Выход: ");
                 int adminchoise;
 
-                if (!int.TryParse(Console.ReadLine(), out adminchoise) || adminchoise < 0 || adminchoise > 4)
+                while (!int.TryParse(Console.ReadLine(), out adminchoise) || adminchoise < 1 || adminchoise > 4)
                 {
-                    Console.WriteLine("Неправильный выбор!");
-                    return;
+                    Console.WriteLine("Ошибка! Введите число от 1 до 4.");
                 }
-
 
                 switch (adminchoise)
                 {
@@ -36,58 +32,68 @@ namespace AdminNamespace
                     case 3:
                         ViewAllAction();
                         break;
+                    case 4:
+                        Console.WriteLine("Выход в главное меню...");
+                        Thread.Sleep(1000);
+                        return;
                 }
             }
         }
 
-        static void AddAction()
+        public void AddAction()
         {
-            Console.WriteLine("Добавить задачу");
-            Console.WriteLine("Название задачи: ");
+            Console.Clear();
+            Console.Write("\nВведите название задачи: ");
             string nameofaction = Console.ReadLine();
 
-           if (string.IsNullOrEmpty(nameofaction))
+            if (string.IsNullOrWhiteSpace(nameofaction))
             {
-                Console.WriteLine("Задача не может быть пустой");
+                Console.WriteLine("Ошибка: задача не может быть пустой!");
+                return;
             }
-           else
-            {
-                todolist.Add(nameofaction);
-                Console.WriteLine("Задача успешно добавлена!");
-            }
+
+            todolist.Add(nameofaction);
+            Console.WriteLine("Задача успешно добавлена!");
         }
 
-        static void RemoveAction()
+        public void RemoveAction()
         {
-            Console.WriteLine("Удалание задач");
-
-            Console.WriteLine("Введите номер задачи: ");
-            int choiseremoveaction;
-
-            while (int.TryParse(Console.ReadLine(), out choiseremoveaction) || choiseremoveaction < 0 || choiseremoveaction > todolist.Count)
-            {
-                Console.WriteLine("Введите корректный индекс");
-            }
-
-            todolist.RemoveAt(choiseremoveaction - 1);
-            Console.WriteLine("Задача Удалена!");
-        }
-
-        static void ViewAllAction()
-        {
-            Console.WriteLine("Просмотр всех задач!");
+            Console.Clear();
+            Console.WriteLine("Удаление задачи");
 
             if (todolist.Count == 0)
             {
-                Console.WriteLine("Активных задач нет!");
+                Console.WriteLine(" Нет задач для удаления!");
+                return;
             }
 
-            else
+            ViewAllAction();
+            Console.Write("Введите номер задачи для удаления: ");
+            int choiseremoveaction;
+
+            while (!int.TryParse(Console.ReadLine(), out choiseremoveaction) || choiseremoveaction <= 0 || choiseremoveaction > todolist.Count)
             {
-                for (int i = 0; i < todolist.Count; i++)
-                {
-                    Console.WriteLine($"Index: {i + 1}. {todolist[i]}");
-                }
+                Console.WriteLine("Ошибка! Введите корректный номер задачи.");
+            }
+
+            todolist.RemoveAt(choiseremoveaction - 1);
+            Console.WriteLine("Задача удалена!");
+        }
+
+        public void ViewAllAction()
+        {
+            Console.Clear();
+            Console.WriteLine("Список задач:");
+
+            if (todolist.Count == 0)
+            {
+                Console.WriteLine(" Активных задач нет!");
+                return;
+            }
+
+            for (int i = 0; i < todolist.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {todolist[i]}");
             }
         }
     }
