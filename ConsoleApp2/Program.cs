@@ -3,6 +3,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using StoreNamespace;
+using Cinema;
+using Apotek;
 
 
     class Program
@@ -27,8 +29,41 @@ using StoreNamespace;
             { "user123", 223344 }
         };
 
-        static void Main(string[] args)
+    static void Main(string[] args)
+    {
+        Console.WriteLine("Добро пожаловать в наш Торговый центр!");
+
+        Console.Write("Куда хотите пойти? 1 - Магазин с Продуктами / 2 - Кинотеатр / 3 - Аптека / 0 - Пойти домой");
+        int placechoise;
+
+        while (!int.TryParse(Console.ReadLine(), out placechoise) || placechoise <= 0 || placechoise > 3)
         {
+            Console.WriteLine("Введите корректный выбор");
+        }
+
+        switch (placechoise)
+        {
+            case 0:
+                Console.WriteLine("Пока");
+                break;
+            case 1:
+                GotoStore();
+                break;
+            case 2:
+                Cinema.UsuallyCinema.AvailiblePlace();
+                break;
+            case 3:
+
+                break;
+        }
+
+
+
+
+
+        static void GotoStore()
+        {
+
             while (true)
             {
                 Console.WriteLine("Добро пожаловать в магазин!");
@@ -113,7 +148,7 @@ using StoreNamespace;
                 }
 
 
-            switch (choisebuyer)
+                switch (choisebuyer)
                 {
                     case 0:
                         return;
@@ -132,6 +167,7 @@ using StoreNamespace;
                 }
             }
         }
+    }
 
         public static void Login()
         {
@@ -421,3 +457,4 @@ using StoreNamespace;
         }
     }
 
+        
