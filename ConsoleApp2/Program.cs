@@ -1,14 +1,15 @@
-﻿using AdminNamespace;
+﻿using Admin.classes;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using StoreNamespace;
-using Cinema;
-using Apotek;
+using Store.classes;
+using Cinema.classes;
+using Primary.classes;
+using ListAboutUser;
 
+class Program
+{
 
-    class Program
-    {
         static AdminAction admin = new AdminAction();
         static List<string> history = new List<string>();
         static List<string> addtovar = new List<string>();
@@ -31,6 +32,8 @@ using Apotek;
 
     static void Main(string[] args)
     {
+        BuyerUser.LoadUsersFromJson("users.json");
+
         Console.WriteLine("Добро пожаловать в наш Торговый центр!");
 
         Console.Write("Куда хотите пойти? 1 - Магазин с Продуктами / 2 - Кинотеатр / 3 - Аптека / 0 - Пойти домой");
@@ -50,13 +53,15 @@ using Apotek;
                 GotoStore();
                 break;
             case 2:
-                Cinema.UsuallyCinema.AvailiblePlace();
+                Cinema.classes.UsuallyCinema.AvailiblePlace();
                 break;
             case 3:
-
+                new Primary.classes.Primary().ManagePharmacy();
                 break;
+            
         }
 
+        BuyerUser.SaveUsersToJson("users.json");
 
 
 
@@ -135,7 +140,9 @@ using Apotek;
 
         static void Buyer()
         {
+            
             Console.Clear();
+            BuyerUser.AllFunction();
             Console.WriteLine("Здравствуйте, покупатель!");
 
             while (true)

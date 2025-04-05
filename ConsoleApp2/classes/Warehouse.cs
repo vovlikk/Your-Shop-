@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StoreNamespace
+namespace Store.classes
 {
     public class Warehouse
     {

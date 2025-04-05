@@ -1,4 +1,4 @@
-﻿namespace Cinema;
+﻿namespace Cinema.classes;
 public class UsuallyCinema
 {
     private static Dictionary<string, int> firsthall = new Dictionary<string, int>();
@@ -33,15 +33,15 @@ public class UsuallyCinema
             Console.WriteLine("Ошибка! Введите корректный номер фильма 1 - Аквамен / 2 - Человек-паук / 0 - Выход: ");
         }
 
-        int totalAmount = 0;  
+        int totalAmount = 0;
 
         switch (choisethefilm)
         {
             case 1:
-                totalAmount += FirstHall(); 
+                totalAmount += FirstHall();
                 break;
             case 2:
-                totalAmount += SecondHall();  
+                totalAmount += SecondHall();
                 break;
             case 0:
                 Console.WriteLine("Пока!");
@@ -49,10 +49,10 @@ public class UsuallyCinema
         }
 
         Console.WriteLine("Теперь, давайте добавим снеки!");
-        totalAmount += OrderSnacks(); 
+        totalAmount += OrderSnacks();
 
-        
-        Betale(totalAmount);  
+
+        Betale(totalAmount);
     }
 
     public static int FirstHall()
@@ -66,7 +66,7 @@ public class UsuallyCinema
             Console.WriteLine("Ошибка! У нас всего 100 мест в кинотеатре. Введите корректное количество мест: ");
         }
 
-        int totalAmount = 0;  
+        int totalAmount = 0;
         if (firsthall.ContainsKey("Аквамен"))
         {
             if (firsthall["Аквамен"] + numberofseat > 100)
@@ -76,18 +76,18 @@ public class UsuallyCinema
             else
             {
                 firsthall["Аквамен"] += numberofseat;
-                totalAmount += numberofseat * 15;  
+                totalAmount += numberofseat * 15;
                 Console.WriteLine($"Вы успешно забронировали {numberofseat} мест(а) на 'Аквамен'.");
             }
         }
         else
         {
             firsthall["Аквамен"] = numberofseat;
-            totalAmount += numberofseat * 15;  
+            totalAmount += numberofseat * 15;
             Console.WriteLine($"Вы успешно забронировали {numberofseat} мест(а) на 'Аквамен'.");
         }
 
-        return totalAmount;  
+        return totalAmount;
     }
 
     public static int SecondHall()
@@ -101,7 +101,7 @@ public class UsuallyCinema
             Console.WriteLine("Ошибка! У нас всего 100 мест в кинотеатре. Введите корректное количество мест: ");
         }
 
-        int totalAmount = 0; 
+        int totalAmount = 0;
         if (secondhall.ContainsKey("Человек-паук"))
         {
             if (secondhall["Человек-паук"] + numberofseat > 100)
@@ -111,18 +111,18 @@ public class UsuallyCinema
             else
             {
                 secondhall["Человек-паук"] += numberofseat;
-                totalAmount += numberofseat * 15;  
+                totalAmount += numberofseat * 15;
                 Console.WriteLine($"Вы успешно забронировали {numberofseat} мест(а) на 'Человек-паук'.");
             }
         }
         else
         {
             secondhall["Человек-паук"] = numberofseat;
-            totalAmount += numberofseat * 15; 
+            totalAmount += numberofseat * 15;
             Console.WriteLine($"Вы успешно забронировали {numberofseat} мест(а) на 'Человек-паук'.");
         }
 
-        return totalAmount;  
+        return totalAmount;
     }
 
     public static int OrderSnacks()
@@ -158,7 +158,7 @@ public class UsuallyCinema
         }
 
         return totalAmount;
-    }  
+    }
 
     public static void Betale(int totalbalance)
     {
