@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace AdminNamespace
+namespace Admin.classes
 {
     public class AdminAction
     {
