@@ -6,6 +6,7 @@ using Store.classes;
 using Cinema.classes;
 using Primary.classes;
 using ListAboutUser;
+using Entertaiment;
 
 class Program
 {
@@ -57,6 +58,9 @@ class Program
                 break;
             case 3:
                 new Primary.classes.Primary().ManagePharmacy();
+                break;
+            case 4:
+                new Entertaiment.EntertaimentforChild().AllFunction();
                 break;
             
         }
