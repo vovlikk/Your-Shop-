@@ -25,10 +25,14 @@ namespace ListAboutUser
             PurchaseHistory = new List<string>();
         }
 
+
+        
         public static void SaveUsersToJson(string filePath)
         {
             string json = JsonConvert.SerializeObject(buyerUsers, Formatting.Indented);
             File.WriteAllText(filePath, json);
+            Console.WriteLine($"Общее количество новых пользователей: {count}");
+
         }
 
       
@@ -85,7 +89,7 @@ namespace ListAboutUser
                 return;
             }
         }
-
+        static int count = 0;
         private static void Register()
         {
             Console.Write("Введите ваше имя: ");
@@ -104,6 +108,7 @@ namespace ListAboutUser
             BuyerUser newuser = new BuyerUser(registename, registepassword);
 
             buyerUsers.Add(newuser);
+            count++;
             Console.WriteLine("Пользователь успешно зарегистрирован!");
         }
 
