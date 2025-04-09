@@ -7,6 +7,7 @@ using Cinema.classes;
 using Primary.classes;
 using ListAboutUser;
 using Entertaiment;
+using Сarshowroom;
 
 class Program
 {
@@ -37,10 +38,10 @@ class Program
 
         Console.WriteLine("Добро пожаловать в наш Торговый центр!");
 
-        Console.Write("Куда хотите пойти? 1 - Магазин с Продуктами / 2 - Кинотеатр / 3 - Аптека / 0 - Пойти домой");
+        Console.Write("Куда хотите пойти? 1 - Магазин с Продуктами / 2 - Кинотеатр / 3 - Аптека / 4 - Развлекательный центр / 5 - Автосалон / 0 - Пойти домой");
         int placechoise;
 
-        while (!int.TryParse(Console.ReadLine(), out placechoise) || placechoise <= 0 || placechoise > 3)
+        while (!int.TryParse(Console.ReadLine(), out placechoise) || placechoise <= 0 || placechoise > 5)
         {
             Console.WriteLine("Введите корректный выбор");
         }
@@ -61,6 +62,9 @@ class Program
                 break;
             case 4:
                 new Entertaiment.EntertaimentforChild().AllFunction();
+                break;
+            case 5:
+                Сarshowroom.Cars.Allfunction();
                 break;
             
         }
